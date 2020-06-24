@@ -93,6 +93,11 @@ namespace GongSolutions.Wpf.DragDrop
         UIElement VisualTarget { get; }
 
         /// <summary>
+        /// Gets the control that is the current drop target, determined by pure hit testing.
+        /// </summary>
+        UIElement VisualOriginalTarget { get; }
+
+        /// <summary>
         /// Gets the item in an ItemsControl that is the current drop target.
         /// </summary>
         /// <remarks>

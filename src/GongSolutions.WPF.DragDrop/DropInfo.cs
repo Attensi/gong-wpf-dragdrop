@@ -52,6 +52,7 @@ namespace GongSolutions.Wpf.DragDrop
             this.Data = dataFormat != null && e.Data.GetDataPresent(dataFormat.Name) ? e.Data.GetData(dataFormat.Name) : e.Data;
 
             this.VisualTarget = sender as UIElement;
+            this.VisualOriginalTarget = e.OriginalSource as UIElement;
             // if there is no drop target, find another
             if (!this.VisualTarget.IsDropTarget())
             {
@@ -307,6 +308,9 @@ namespace GongSolutions.Wpf.DragDrop
 
         /// <inheritdoc />
         public UIElement VisualTarget { get; private set; }
+
+        /// <inheritdoc />
+        public UIElement VisualOriginalTarget { get; private set; }
 
         /// <inheritdoc />
         public UIElement VisualTargetItem { get; private set; }

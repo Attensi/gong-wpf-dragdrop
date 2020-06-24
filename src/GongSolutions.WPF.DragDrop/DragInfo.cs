@@ -36,6 +36,7 @@ namespace GongSolutions.Wpf.DragDrop
             this.Effects = DragDropEffects.None;
             this.MouseButton = e.ChangedButton;
             this.VisualSource = sender as UIElement;
+            this.VisualOriginalSource = e.OriginalSource as UIElement;
             this.DragStartPosition = e.GetPosition(this.VisualSource);
             this.DragDropCopyKeyState = DragDrop.GetDragDropCopyKeyState(this.VisualSource);
 
@@ -204,6 +205,9 @@ namespace GongSolutions.Wpf.DragDrop
 
         /// <inheritdoc />
         public UIElement VisualSource { get; private set; }
+
+        /// <inheritdoc />
+        public UIElement VisualOriginalSource { get; private set; }
 
         /// <inheritdoc />
         public UIElement VisualSourceItem { get; private set; }

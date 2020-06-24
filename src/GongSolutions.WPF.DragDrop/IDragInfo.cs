@@ -86,6 +86,11 @@ namespace GongSolutions.Wpf.DragDrop
         UIElement VisualSource { get; }
 
         /// <summary>
+        /// Gets the control that initiated the drag, determined by pure hit testing.
+        /// </summary>
+        UIElement VisualOriginalSource { get; }
+
+        /// <summary>
         /// Gets the item in an ItemsControl that started the drag.
         /// </summary>
         /// <remarks>
