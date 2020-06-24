@@ -1113,5 +1113,29 @@ namespace GongSolutions.Wpf.DragDrop
         {
             return (ScrollViewer)element?.GetValue(DropTargetScrollViewerProperty);
         }
+
+        /// <summary>
+        /// Gets or Sets the TreeViewItem handler for the drop action.
+        /// </summary>
+        public static readonly DependencyProperty TreeViewItemDropHandlerProperty
+            = DependencyProperty.RegisterAttached("TreeViewItemDropHandler",
+                                                  typeof(ITreeViewItemDropTarget),
+                                                  typeof(DragDrop));
+
+        /// <summary>
+        /// Gets the TreeViewItem handler for the drop action.
+        /// </summary>
+        public static ITreeViewItemDropTarget GetTreeViewItemDropHandler(UIElement target)
+        {
+            return (ITreeViewItemDropTarget)target.GetValue(TreeViewItemDropHandlerProperty);
+        }
+
+        /// <summary>
+        /// Sets the TreeViewItem handler for the drop action.
+        /// </summary>
+        public static void SetTreeViewItemDropHandler(UIElement target, ITreeViewItemDropTarget value)
+        {
+            target.SetValue(TreeViewItemDropHandlerProperty, value);
+        }
     }
 }

@@ -14,6 +14,17 @@ namespace GongSolutions.Wpf.DragDrop
 {
     public static partial class DragDrop
     {
+        internal static ITreeViewItemDropTarget TryGetTreeViewDropHandler(UIElement uiElement)
+        {
+            var dropHandler = GetTreeViewItemDropHandler(uiElement);
+            if (dropHandler is null && uiElement is FrameworkElement frameworkElement)
+            {
+                dropHandler = frameworkElement.DataContext as ITreeViewItemDropTarget;
+            }
+
+            return dropHandler;
+        }
+
         private static void CreateDragAdorner(DropInfo dropInfo)
         {
             var dragInfo = dropInfo.DragInfo;
