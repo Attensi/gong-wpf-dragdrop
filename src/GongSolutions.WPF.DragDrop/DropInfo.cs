@@ -125,32 +125,33 @@ namespace GongSolutions.Wpf.DragDrop
                 if (item != null)
                 {
                     var tvItem = item as TreeViewItem;
-                    var canTvItemAcceptData = true;
+                    var canTvItemAddData = true;
                     if (tvItem != null)
                     {
                         TreeViewItem FindTvItemThatCanAddData(TreeViewItem item)
                         {
+                            var dropHandler = DragDrop.TryGetTreeViewDropHandler(item);
+                            if (dropHandler is null || dropHandler.CanAddData(this.Data))
+                            {
+                                // if no handler is found we assume item can add data
+                                return item;
+                            }
+
+                            canTvItemAddData = false;
+                            
                             while (true)
                             {
-                                var dropHandler = DragDrop.TryGetTreeViewDropHandler(item);
-                                if (dropHandler is null || dropHandler.CanAddData(this.Data))
-                                {
-                                    // if no handler is found we assume item can add data
-                                    return item;
-                                }
-
-                                canTvItemAcceptData = false;
                                 var ancestor = item.GetVisualAncestor<TreeViewItem>();
                                 if (ancestor is null)
                                 {
-                                    // found no item that can add the data, return original item
-                                    return tvItem;
+                                    // found no item that can add the data, assume data can be added to root, return root item
+                                    return item;
                                 }
 
                                 dropHandler = DragDrop.TryGetTreeViewDropHandler(ancestor);
                                 if (dropHandler is null || dropHandler.CanAddData(this.Data))
                                 {
-                                    // if the ancestor can add the data, return current item
+                                    // if the direct ancestor can add the data, return current item
                                     return item;
                                 }
 
@@ -175,7 +176,7 @@ namespace GongSolutions.Wpf.DragDrop
                         this.TargetItem = itemParent.ItemContainerGenerator.ItemFromContainer(item);
                     }
 
-                    var expandedTVItem = tvItem != null && tvItem.HasHeader && tvItem.HasItems && tvItem.IsExpanded;
+                    var expandedTVItem = tvItem != null && canTvItemAddData && tvItem.HasHeader && tvItem.HasItems && tvItem.IsExpanded;
                     var itemRenderSize = expandedTVItem ? tvItem.GetHeaderSize() : item.RenderSize;
 
                     if (this.VisualTargetOrientation == Orientation.Vertical)
@@ -187,7 +188,7 @@ namespace GongSolutions.Wpf.DragDrop
                         var bottomGap = targetHeight * 0.75;
                         if (currentYPos > targetHeight / 2)
                         {
-                            if (expandedTVItem && canTvItemAcceptData && (currentYPos < topGap || currentYPos > bottomGap))
+                            if (expandedTVItem && (currentYPos < topGap || currentYPos > bottomGap))
                             {
                                 this.VisualTargetItem = tvItem.ItemContainerGenerator.ContainerFromIndex(0) as UIElement;
                                 this.TargetItem = this.VisualTargetItem != null ? tvItem.ItemContainerGenerator.ItemFromContainer(this.VisualTargetItem) : null;
@@ -208,7 +209,7 @@ namespace GongSolutions.Wpf.DragDrop
 
                         if (currentYPos > topGap && currentYPos < bottomGap)
                         {
-                            if (tvItem != null && canTvItemAcceptData)
+                            if (tvItem != null && canTvItemAddData)
                             {
                                 this.TargetCollection = tvItem.ItemsSource ?? tvItem.Items;
                                 this.InsertIndex = this.TargetCollection != null ? this.TargetCollection.OfType<object>().Count() : 0;
@@ -249,7 +250,7 @@ namespace GongSolutions.Wpf.DragDrop
 
                         if (currentXPos > targetWidth * 0.25 && currentXPos < targetWidth * 0.75)
                         {
-                            if (tvItem != null && canTvItemAcceptData)
+                            if (tvItem != null && canTvItemAddData)
                             {
                                 this.TargetCollection = tvItem.ItemsSource ?? tvItem.Items;
                                 this.InsertIndex = this.TargetCollection != null ? this.TargetCollection.OfType<object>().Count() : 0;
