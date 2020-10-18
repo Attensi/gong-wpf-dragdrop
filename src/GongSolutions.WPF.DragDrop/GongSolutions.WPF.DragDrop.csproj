@@ -4,12 +4,11 @@
     <PropertyGroup>
         <AssemblyName>GongSolutions.WPF.DragDrop</AssemblyName>
         <Title>gong-wpf-dragdrop</Title>
-        <RootNamespace>GongSolutions.WPF.DragDrop</RootNamespace>
+        <RootNamespace>GongSolutions.Wpf.DragDrop</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <!-- reference includes -->
     <ItemGroup>
-        <PackageReference Include="WpfAnalyzers" Version="2.2.*" PrivateAssets="All" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
